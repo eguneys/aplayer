@@ -142,8 +142,8 @@ abstract class HasAudioAnalyser {
   abstract _release(time: number): void
 }
 
-function getOscillator(context: AudioContext, type: string) {
-  return new OscillatorNode(context, { type })
+function getOscillator(context: AudioContext, type: string, detune: number = 0) {
+  return new OscillatorNode(context, { type, detune })
 }
 
 export class MidiPlayer extends HasAudioAnalyser {
@@ -169,10 +169,10 @@ export class MidiPlayer extends HasAudioAnalyser {
 
     let { wave, volume, cutoff, cutoff_max, amplitude, filter_adsr, amp_adsr } = synth
 
-    let osc1 = getOscillator(context, wave)
+    let osc1 = getOscillator(context, wave, -15)
     this.osc1 = osc1
 
-    let osc2 = getOscillator(context, wave)
+    let osc2 = getOscillator(context, wave, 15)
     this.osc2 = osc2
 
 
