@@ -124,9 +124,21 @@ abstract class HasAudioAnalyser {
     //this.analyser = context.createAnalyser()
 
     this.gain.gain.setValueAtTime(1, time)
-    this.gain!.connect(context.destination)
+    //this.gain!.connect(context.destination)
+    
+    
     //this.gain!.connect(this.analyser)
     //this.analyser.connect(context.destination)
+
+    let compressor = context.createDynamicsCompressor()
+    compressor.threshold.setValueAtTime(-50, context.currentTime)
+    compressor.knee.setValueAtTime(40, context.currentTime)
+    compressor.ratio.setValueAtTime(12, context.currentTime)
+    compressor.attack.setValueAtTime(0, context.currentTime)
+    compressor.release.setValueAtTime(0.25, context.currentTime)
+    this.gain!.connect(compressor)
+
+    compressor.connect(context.destination)
 
     this._attack(time)
     return this
